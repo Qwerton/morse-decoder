@@ -38,15 +38,11 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-  const array = [];
   let sum = '';
-
-  for (let i = 0; i < expr.length; i += 10) array.push(expr.slice(i, i + 10));
-  array.forEach((item) => {
-    item = item.replace(/^0{1,}/, '').replace(/11/g, '-').replace(/10/g, '.').replace(/\*{10}/g, ' ');
-    MORSE_TABLE[item] ? sum = sum + MORSE_TABLE[item] : sum = sum + item;
+  expr.match(/.{10}/g).forEach((item) => {
+    item = item.replace(/^0+/, '').replace(/11/g, '-').replace(/10/g, '.').replace(/\*{10}/g, ' ');
+    MORSE_TABLE[item] ? sum += MORSE_TABLE[item] : sum += item;
   });
-
   return sum;
 }
 
